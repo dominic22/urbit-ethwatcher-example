@@ -69,7 +69,7 @@
     ^-  (quip card:agent:gall _this)
     ?:  ?=([%http-response *] path)
       `this
-    ?.  =(/ path)
+    ?.  =(/primary path)
       (on-watch:def path)
     [[%give %fact ~ %json !>(*json)]~ this]
   ::

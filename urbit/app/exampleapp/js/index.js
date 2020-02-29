@@ -44502,6 +44502,52 @@
             }.call(commonjsGlobal));
             });
 
+            class UrbitApi {
+              setAuthTokens(authTokens) {
+                this.authTokens = authTokens;
+                this.bindPaths = [];
+              }
+
+              bind(path, method, ship = this.authTokens.ship, appl = "exampleapp", success, fail) {
+                this.bindPaths = lodash.uniq([...this.bindPaths, path]);
+
+                window.subscriptionId = window.urb.subscribe(ship, appl, path, 
+                  (err) => {
+                    fail(err);
+                  },
+                  (event) => {
+                    success({
+                      data: event,
+                      from: {
+                        ship,
+                        path
+                      }
+                    });
+                  },
+                  (err) => {
+                    fail(err);
+                  });
+              }
+
+              exampleapp(data) {
+                this.action("exampleapp", "json", data);
+              }
+
+              action(appl, mark, data) {
+                return new Promise((resolve, reject) => {
+                  window.urb.poke(ship, appl, mark, data,
+                    (json) => {
+                      resolve(json);
+                    }, 
+                    (err) => {
+                      reject(err);
+                    });
+                });
+              }
+            }
+            let api = new UrbitApi();
+            window.api = api;
+
             const _jsxFileName = "/home/do7ze5/urbit/urbit-ethwatcher-example/src/js/components/lib/icons/icon-home.js";
             class IconHome extends react_1 {
               render() {
@@ -44549,79 +44595,66 @@
             }
 
             const _jsxFileName$3 = "/home/do7ze5/urbit/urbit-ethwatcher-example/src/js/components/root.js";
-
             class Root extends react_1 {
               constructor(props) {
                 super(props);
+                console.log("og props");
+                console.log(this.props);
+                this.state = { ship: "~zod" };
+              }
+
+              handleChange(event) {
+                this.setState({ ship: event.target.value });
               }
 
               render() {
-
                 return (
-                  react.createElement(BrowserRouter, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 16}}
-                    , react.createElement('div', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 17}}
-                    , react.createElement(HeaderBar, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 18}})
-                    , react.createElement(Route, { exact: true, path: "/~exampleapp", render:  () => {
-                      return (
-                        react.createElement('div', { className: "pa3 w-100" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 21}}
-                          , react.createElement('h1', { className: "mt0 f2" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 22}}, "exampleapp")
-                          , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 23}}, "Welcome to your Landscape application."    )
-                          , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 24}}, "To get started, edit "    , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 24}}, "src/index.js"), " or "  , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 24}}, "exampleapp.hoon"), " and "  , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 24}}, "|commit %home" ), " on your Urbit ship to see your changes."        )
-                          , react.createElement('a', { className: "black no-underline db body-large pt3"    , href: "https://urbit.org/docs", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 25}}, "-> Read the docs"   )
-                        )
-                      )}, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 19}}
-                    )
+                  react.createElement(BrowserRouter, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 22}}
+                    , react.createElement('div', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 23}}
+                      , react.createElement(HeaderBar, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 24}} )
+                      , react.createElement(Route, {
+                        exact: true,
+                        path: "/~exampleapp",
+                        render: () => {
+                          return (
+                            react.createElement('div', { className: "pa3 w-100" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 30}}
+                              , react.createElement('h1', { className: "mt0 f2" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 31}}, "exampleapp")
+                              , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 32}}, "Welcome to your example app!!!"
+
+                              )
+                              , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 35}}, "To get started, edit "
+                                    , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 36}}, "src/index.js"), " or" , " "
+                                , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 37}}, "exampleapp.hoon"), " and "  , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 37}}, "|commit %home" ), " ", "on your Urbit ship to see your changes."
+
+                              )
+                              , react.createElement('a', {
+                                className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
+                                onClick: () => {
+                                  console.log("Send action json");
+                                  api.action("exampleapp", "json", {
+                                    ship: this.state.ship
+                                  });
+                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 40}}
+                              , "Send Hi to Gall App"
+
+                              )
+                              /*<p className="white absolute" style={{ top: 150, left: 15 }}>
+                                <input
+                                  type="text"
+                                  value={this.state.ship}
+                                  onChange={this.handleChange.bind(this)}
+                                />
+                              </p>*/
+                              , react.createElement('div', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 58}}, "Current ship: "  , this.state.ship)
+                            )
+                          );
+                        }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 25}}
+                      )
                     )
                   )
-                )
+                );
               }
             }
-
-            class UrbitApi {
-              setAuthTokens(authTokens) {
-                this.authTokens = authTokens;
-                this.bindPaths = [];
-              }
-
-              bind(path, method, ship = this.authTokens.ship, appl = "exampleapp", success, fail) {
-                this.bindPaths = lodash.uniq([...this.bindPaths, path]);
-
-                window.subscriptionId = window.urb.subscribe(ship, appl, path, 
-                  (err) => {
-                    fail(err);
-                  },
-                  (event) => {
-                    success({
-                      data: event,
-                      from: {
-                        ship,
-                        path
-                      }
-                    });
-                  },
-                  (err) => {
-                    fail(err);
-                  });
-              }
-
-              exampleapp(data) {
-                this.action("exampleapp", "json", data);
-              }
-
-              action(appl, mark, data) {
-                return new Promise((resolve, reject) => {
-                  window.urb.poke(ship, appl, mark, data,
-                    (json) => {
-                      resolve(json);
-                    }, 
-                    (err) => {
-                      reject(err);
-                    });
-                });
-              }
-            }
-            let api = new UrbitApi();
-            window.api = api;
 
             class InitialReducer {
                 reduce(json, state) {
@@ -53214,8 +53247,6 @@ lyrtesmudnytbyrsenwegfyrmurtelreptegpecnelnevfes\
 
             subscription.start();
 
-            reactDom.render((
-              react.createElement(Root, {__self: undefined, __source: {fileName: _jsxFileName$4, lineNumber: 15}} )
-            ), document.querySelectorAll("#root")[0]);
+            reactDom.render(react.createElement(Root, {__self: undefined, __source: {fileName: _jsxFileName$4, lineNumber: 14}} ), document.querySelectorAll("#root")[0]);
 
 }));

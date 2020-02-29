@@ -55,6 +55,10 @@
     ^-  (quip card _this)
     ?>  (team:title our.bol src.bol)
     ?+    mark  (on-poke:def mark vase)
+        %json
+      ~&  mark
+      ~&  this
+      [~ this]
         %handle-http-request
       =+  !<([eyre-id=@ta =inbound-request:eyre] vase)
       :_  this
@@ -88,7 +92,6 @@
   ++  on-peek   on-peek:def
   ++  on-fail   on-fail:def
   --
-::
 ::
 |_  bol=bowl:gall
 ::

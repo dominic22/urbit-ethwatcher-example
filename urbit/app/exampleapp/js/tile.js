@@ -19219,20 +19219,24 @@
             });
 
             const _jsxFileName = "/home/do7ze5/urbit/urbit-ethwatcher-example/tile/tile.js";
-
             class exampleappTile extends react_1 {
-
               render() {
                 return (
-                  react.createElement('div', { className: "w-100 h-100 relative"  , style: { background: '#1a1a1a' }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 10}}
-                    , react.createElement('a', { className: "w-100 h-100 db pa2 no-underline"    , href: "/~exampleapp", __self: this, __source: {fileName: _jsxFileName, lineNumber: 11}}
-                      , react.createElement('p', { className: "gray label-regular b absolute"   , style: { left: 8, top: 4 }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 12}}, "exampleapp")
-                      , react.createElement('p', { className: "white absolute" , style: { top: 25, left: 8 }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 13}}, "This is sample text for your full app tile."        )
+                  react.createElement('div', { className: "w-100 h-100 relative"  , style: { background: "#1a1a1a" }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 8}}
+                    , react.createElement('a', { className: "w-100 h-100 db pa2 no-underline"    , href: "/~exampleapp", __self: this, __source: {fileName: _jsxFileName, lineNumber: 9}}
+                      , react.createElement('p', {
+                        className: "gray label-regular b absolute"   ,
+                        style: { left: 8, top: 4 }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 10}}
+                      , "This is the new exampleapp"
+
+                      )
+                      , react.createElement('p', { className: "white absolute" , style: { top: 25, left: 8 }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 16}}, "This is sample text for your full app tile."
+
+                      )
                     )
                   )
                 );
               }
-
             }
 
             window.exampleappTile = exampleappTile;

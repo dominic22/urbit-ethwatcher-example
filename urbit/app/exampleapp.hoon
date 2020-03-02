@@ -30,6 +30,7 @@
 /=  exampleapp-png
   /^  (map knot @)
   /:  /===/app/exampleapp/img  /_  /png/
+=,  format
 ::
 |%
 +$  card  card:agent:gall
@@ -56,8 +57,11 @@
     ?>  (team:title our.bol src.bol)
     ?+    mark  (on-poke:def mark vase)
         %json
+      =/  jon=json  !<(json vase)
       ~&  mark
-      ~&  this
+      =/  json-map    ((om:dejs:format same) jon)
+      =/  ship-to-hi  (so:dejs:format (~(got by json-map) %ship))
+      ~&  ship-to-hi
       [~ this]
         %handle-http-request
       =+  !<([eyre-id=@ta =inbound-request:eyre] vase)

@@ -114,8 +114,11 @@
   ~&  jon
   =/  json-map    ((om:dejs:format same) jon)
   =/  ship-to-hi  (so:dejs:format (~(got by json-map) %ship))
-  ~&  ship-to-hi
-  [~ state]
+  =/  sthu  (need (slaw %p ship-to-hi))
+  ~&  ship
+  ~&  'ship state:'
+  ~&  ship:state
+  [~ state(ship ship)]
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre

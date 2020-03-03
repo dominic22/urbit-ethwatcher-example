@@ -48,13 +48,24 @@ export class Root extends Component {
                   >
                     Send Hi to Gall App
                   </a>
-                  {/*<p className="white absolute" style={{ top: 150, left: 15 }}>
+                  <a
+                    className="dib f9 pa3 bt bb bl br tc pointer bg-white"
+                    onClick={() => {
+                      console.log("Send action json");
+                      api.action("exampleapp", "add-contract", {
+                        contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
+                      });
+                    }}
+                  >
+                    Send Contract to app
+                  </a>
+                  <p className="white absolute" style={{ top: 150, left: 15 }}>
                     <input
                       type="text"
                       value={this.state.ship}
                       onChange={this.handleChange.bind(this)}
                     />
-                  </p>*/}
+                  </p>
                   <div>Current ship: {this.state.ship}</div>
                 </div>
               );

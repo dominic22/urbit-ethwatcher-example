@@ -39,6 +39,7 @@
   ==
 +$  state-zero  [%0 data=json ship=@p]
 --
+=|  state-zero
 =*  state  -
 ^-  agent:gall
 =<
@@ -65,6 +66,11 @@
     ?.  ?=(%bound +<.sign-arvo)
       (on-arvo:def wire sign-arvo)
     [~ this]
+::  ++  on-save  !>(state)
+  ++  on-save  !>(state)
+  ++  on-load
+    |=  old=vase
+   `this(state !<(state-zero old))
 ::
   ++  on-poke
     |=  [=mark =vase]
@@ -76,18 +82,14 @@
         (poke-json:cc !<(json vase))
           %handle-http-request
         =+  !<([eyre-id=@ta =inbound-request:eyre] vase)
-        ^-  (quip card _state)
 ::      construct a cell but inverted => [card state]
+        ^-  (quip card _state)
         :_  state
         %+  give-simple-payload:app  eyre-id
         %+  require-authorization:app  inbound-request
         poke-handle-http-request:cc
       ==
     [cards this]
-::
-  ::  ++  on-save  !>(state)
-  ++  on-save on-save:def
-  ++  on-load on-load:def
 ::
   ++  on-watch
     |=  =path

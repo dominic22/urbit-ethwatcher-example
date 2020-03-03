@@ -30,7 +30,7 @@ export class Root extends Component {
                 <div className="pa3 w-100">
                   <h1 className="mt0 f2">exampleapp</h1>
                   <p className="lh-copy measure pt3">
-                    Welcome to your exampless appssss!
+                    Welcome to your exampless appssss1!
                   </p>
                   <p className="lh-copy measure pt3">
                     To get started, edit <code>src/index.js</code> or{" "}

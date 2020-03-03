@@ -10,7 +10,7 @@ export class Root extends Component {
     super(props);
     console.log("og props");
     console.log(this.props);
-    this.state = { ship: "~zod" };
+    this.state = { ship: "~binbes-rantem" };
   }
 
   handleChange(event) {
@@ -29,7 +29,7 @@ export class Root extends Component {
               return (
                 React.createElement('div', { className: "pa3 w-100" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 30}}
                   , React.createElement('h1', { className: "mt0 f2" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 31}}, "exampleapp")
-                  , React.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 32}}, "Welcome to your example app!!!"
+                  , React.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 32}}, "Welcome to your exampless appssss!"
 
                   )
                   , React.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 35}}, "To get started, edit "

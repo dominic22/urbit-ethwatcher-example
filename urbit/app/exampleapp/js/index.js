@@ -44600,7 +44600,7 @@
                 super(props);
                 console.log("og props");
                 console.log(this.props);
-                this.state = { ship: "~zod" };
+                this.state = { ship: "~binbes-rantem" };
               }
 
               handleChange(event) {
@@ -44619,7 +44619,7 @@
                           return (
                             react.createElement('div', { className: "pa3 w-100" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 30}}
                               , react.createElement('h1', { className: "mt0 f2" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 31}}, "exampleapp")
-                              , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 32}}, "Welcome to your example app!!!"
+                              , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 32}}, "Welcome to your exampless appssss!"
 
                               )
                               , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 35}}, "To get started, edit "

@@ -10,7 +10,7 @@ export class Root extends Component {
     super(props);
     console.log("og props");
     console.log(this.props);
-    this.state = { ship: "~zod" };
+    this.state = { ship: "~binbes-rantem" };
   }
 
   handleChange(event) {
@@ -30,7 +30,7 @@ export class Root extends Component {
                 <div className="pa3 w-100">
                   <h1 className="mt0 f2">exampleapp</h1>
                   <p className="lh-copy measure pt3">
-                    Welcome to your example app!!!
+                    Welcome to your exampless appssss!
                   </p>
                   <p className="lh-copy measure pt3">
                     To get started, edit <code>src/index.js</code> or{" "}

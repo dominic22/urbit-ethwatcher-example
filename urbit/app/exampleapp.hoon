@@ -34,7 +34,12 @@
 ::
 |%
 +$  card  card:agent:gall
++$  versioned-state
+  $%  state-zero
+  ==
++$  state-zero  [%0 data=json ship=@p]
 --
+=*  state  -
 ^-  agent:gall
 =<
   |_  bol=bowl:gall
@@ -51,53 +56,64 @@
         [%pass / %arvo %e %connect [~ /'~exampleapp'] %exampleapp]
         [%pass /exampleapp %agent [our.bol %launch] %poke launcha]
     ==
+::
+  ++  on-agent  on-agent:def
+  ::
+  ++  on-arvo
+    |=  [=wire =sign-arvo]
+    ^-  (quip card _this)
+    ?.  ?=(%bound +<.sign-arvo)
+      (on-arvo:def wire sign-arvo)
+    [~ this]
+::
   ++  on-poke
     |=  [=mark =vase]
     ^-  (quip card _this)
     ?>  (team:title our.bol src.bol)
-    ?+    mark  (on-poke:def mark vase)
-        %json
-      =/  jon=json  !<(json vase)
-      ~&  mark
-      =/  json-map    ((om:dejs:format same) jon)
-      =/  ship-to-hi  (so:dejs:format (~(got by json-map) %ship))
-      ~&  ship-to-hi
-      [~ this]
-        %handle-http-request
-      =+  !<([eyre-id=@ta =inbound-request:eyre] vase)
-      :_  this
-      %+  give-simple-payload:app  eyre-id
-      %+  require-authorization:app  inbound-request
-      poke-handle-http-request:cc
-    ::
-    ==
-  ::
+    =^  cards  state
+      ?+    mark  (on-poke:def mark vase)
+          %json
+        (poke-json:cc !<(json vase))
+          %handle-http-request
+        =+  !<([eyre-id=@ta =inbound-request:eyre] vase)
+        ^-  (quip card _state)
+::      construct a cell but inverted => [card state]
+        :_  state
+        %+  give-simple-payload:app  eyre-id
+        %+  require-authorization:app  inbound-request
+        poke-handle-http-request:cc
+      ==
+    [cards this]
+::
+  ::  ++  on-save  !>(state)
+  ++  on-save on-save:def
+  ++  on-load on-load:def
+::
   ++  on-watch
     |=  =path
-    ^-  (quip card:agent:gall _this)
+    ^-  (quip card _this)
     ?:  ?=([%http-response *] path)
       `this
     ?.  =(/primary path)
       (on-watch:def path)
     [[%give %fact ~ %json !>(*json)]~ this]
   ::
-  ++  on-agent  on-agent:def
-  ::
-  ++  on-arvo   
-    |=  [=wire =sign-arvo]
-    ^-  (quip card _this)
-    ?.  ?=(%bound +<.sign-arvo)
-      (on-arvo:def wire sign-arvo)
-    [~ this]
-  ::
-  ++  on-save  on-save:def
-  ++  on-load  on-load:def
   ++  on-leave  on-leave:def
   ++  on-peek   on-peek:def
   ++  on-fail   on-fail:def
   --
 ::
 |_  bol=bowl:gall
+::
+++  poke-json
+  |=  jon=json
+  ^-  (quip card _state)
+  ~&  'poke-json in testing called'
+  ~&  jon
+  =/  json-map    ((om:dejs:format same) jon)
+  =/  ship-to-hi  (so:dejs:format (~(got by json-map) %ship))
+  ~&  ship-to-hi
+  [~ state]
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre

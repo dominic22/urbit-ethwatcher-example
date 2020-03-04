@@ -37,7 +37,7 @@
 +$  versioned-state
   $%  state-zero
   ==
-+$  state-zero  [%0 data=json ship=@p]
++$  state-zero  [%0 data=json ship=@p contract=@t]
 --
 =|  state-zero
 =*  state  -
@@ -82,7 +82,7 @@
         (poke-json:cc !<(json vase))
           %handle-http-request
         =+  !<([eyre-id=@ta =inbound-request:eyre] vase)
-::      construct a cell but inverted => [card state]
+        :: construct a cell but inverted => [card state]
         ^-  (quip card _state)
         :_  state
         %+  give-simple-payload:app  eyre-id
@@ -110,14 +110,14 @@
 ++  poke-json
   |=  jon=json
   ^-  (quip card _state)
-  ~&  'poke-json in testing called'
+  ~&  'poke-json called'
   ~&  jon
   =/  json-map    ((om:dejs:format same) jon)
   =/  ship-to-hi  (so:dejs:format (~(got by json-map) %ship))
-  =/  sthu  (need (slaw %p ship-to-hi))
+  =/  ship  (need (slaw %p ship-to-hi))
   ~&  ship
-  ~&  'ship state:'
-  ~&  ship:state
+  ~&  'previous ship state:'
+  ~&  state
   [~ state(ship ship)]
 ::
 ++  poke-handle-http-request

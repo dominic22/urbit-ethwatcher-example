@@ -94,11 +94,15 @@
   ++  on-watch
     |=  =path
     ^-  (quip card _this)
+    ~&  'on-watch'
     ?:  ?=([%http-response *] path)
       `this
-    ?.  =(/primary path)
-      (on-watch:def path)
-    [[%give %fact ~ %json !>(*json)]~ this]
+    ?:  =(/primary path)
+      [[%give %fact ~ %json !>(*json)]~ this]
+    ?:  =(/state/update path)
+      [[%give %fact ~ %json !>(*json)]~ this]
+    (on-watch:def path)
+    
   ::
   ++  on-leave  on-leave:def
   ++  on-peek   on-peek:def
@@ -118,7 +122,8 @@
   ~&  ship
   ~&  'previous ship state:'
   ~&  state
-  [~ state(ship ship)]
+::  [~ state(ship ship)]
+  [[%give %fact `/state/update %json !>(jon)]~ state(ship ship)]
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre

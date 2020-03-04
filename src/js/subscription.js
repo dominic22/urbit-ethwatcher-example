@@ -1,8 +1,7 @@
-import { api } from '/api';
-import { store } from '/store';
+import { api } from "/api";
+import { store } from "/store";
 
-import urbitOb from 'urbit-ob';
-
+import urbitOb from "urbit-ob";
 
 export class Subscription {
   start() {
@@ -14,20 +13,41 @@ export class Subscription {
   }
 
   initializeexampleapp() {
-    api.bind('/primary', 'PUT', api.authTokens.ship, 'exampleapp',
+    api.bind(
+      "/primary",
+      "PUT",
+      api.authTokens.ship,
+      "exampleapp",
       this.handleEvent.bind(this),
-      this.handleError.bind(this));
+      this.handleError.bind(this)
+    );
+    api.bind(
+      "/state/update",
+      "PUT",
+      api.authTokens.ship,
+      "exampleapp",
+      this.handleStateUpdateEvent.bind(this),
+      this.handleError.bind(this)
+    );
   }
 
+  handleStateUpdateEvent(diff) {
+    store.handleStateUpdateEvent(diff);
+  }
   handleEvent(diff) {
     store.handleEvent(diff);
   }
 
   handleError(err) {
     console.error(err);
-    api.bind('/primary', 'PUT', api.authTokens.ship, 'exampleapp',
+    api.bind(
+      "/primary",
+      "PUT",
+      api.authTokens.ship,
+      "exampleapp",
       this.handleEvent.bind(this),
-      this.handleError.bind(this));
+      this.handleError.bind(this)
+    );
   }
 }
 

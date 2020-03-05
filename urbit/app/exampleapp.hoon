@@ -120,10 +120,19 @@
   =/  ship-to-hi  (so:dejs:format (~(got by json-map) %ship))
   =/  ship  (need (slaw %p ship-to-hi))
   ~&  ship
+  =/  contract-sample  (so:dejs:format (~(got by json-map) %contract))
+::  =/  contract  (need (slaw %t contract-sample))
+  ~&  `@ux`(rash contract-sample hex)
   ~&  'previous ship state:'
   ~&  state
 ::  [~ state(ship ship)]
-  [[%give %fact `/state/update %json !>(jon)]~ state(ship ship)]
+::  [[%give %fact `/state/update %json !>(jon)]~ state(ship ship)]
+  :-  [%give %fact `/state/update %json !>(jon)]~ 
+  %=  state
+    ship  ship
+    contract  contract-sample
+  ==
+::  state(ship ship)]
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre

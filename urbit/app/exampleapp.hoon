@@ -127,12 +127,19 @@
   ~&  state
 ::  [~ state(ship ship)]
 ::  [[%give %fact `/state/update %json !>(jon)]~ state(ship ship)]
-  :-  [%give %fact `/state/update %json !>(jon)]~ 
+  :-  [%give %fact `/state/update %json !>(make-tile-json)]~ 
   %=  state
     ship  ship
     contract  contract-sample
   ==
 ::  state(ship ship)]
+++  make-tile-json
+  ^-  json
+  =,  enjs:format
+  %-  pairs
+  :~  [%contract (tape (trip contract.state))]
+      [%shipaa (ship ship.state)]
+  ==
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre

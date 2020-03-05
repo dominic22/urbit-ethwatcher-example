@@ -34,6 +34,12 @@
 ::
 |%
 +$  card  card:agent:gall
+
++$  example-action
+  $%  [%create =ship]
+      [%delete =ship]
+  ==
+
 +$  versioned-state
   $%  state-zero
   ==
@@ -79,7 +85,8 @@
     =^  cards  state
       ?+    mark  (on-poke:def mark vase)
           %json
-        (poke-json:cc !<(json vase))
+        (poke-action-name:cc !<(json vase))
+::        (poke-json:cc !<(json vase))
           %handle-http-request
         =+  !<([eyre-id=@ta =inbound-request:eyre] vase)
         :: construct a cell but inverted => [card state]
@@ -110,6 +117,57 @@
   --
 ::
 |_  bol=bowl:gall
+::
+++  json-to-action
+  |=  jon=json
+  ^-  example-action
+  =,  dejs:format
+  =<  (parse-json jon)
+  |%
+  ++  parse-json
+    %-  of
+    :~  [%create create]
+        [%delete delete]
+    ==
+  ::
+  ++  create
+    %-  ot
+    :~  [%ship (su ;~(pfix sig fed:ag))]
+    ==
+  ::
+  ++  delete
+    (ot [%ship (su ;~(pfix sig fed:ag))]~)
+  --
+::
+++  poke-action-name
+  |=  jon=json
+  ^-  (quip card _state)
+  (poke-action (json-to-action jon))
+::  (poke-action (json-to-action jon))
+::
+++  poke-action
+  |=  action=example-action
+  ^-  (quip card _state)
+  ~&  'poke-action'
+  ?-  -.action
+      %create    (handle-create action)
+      %delete    (handle-delete action)
+  ==
+::
+++  handle-create
+  |=  act=example-action
+  ^-  (quip card _state)
+  ~&  'handle-create'
+  ~&  act
+::  ?>  ?=(%create -.act)
+  [~ state]
+::
+++  handle-delete
+  |=  act=example-action
+  ^-  (quip card _state)
+  ~&  'handle-delete'
+  ~&  act
+  [~ state]
 ::
 ++  poke-json
   |=  jon=json

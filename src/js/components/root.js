@@ -30,7 +30,7 @@ export class Root extends Component {
                 <div className="pa3 w-100">
                   <h1 className="mt0 f2">exampleapp</h1>
                   <p className="lh-copy measure pt3">
-                    Welcome to your exampless appssss1!
+                    Welcome to your exampless app!
                   </p>
                   <p className="lh-copy measure pt3">
                     To get started, edit <code>src/index.js</code> or{" "}
@@ -42,7 +42,8 @@ export class Root extends Component {
                     onClick={() => {
                       console.log("Send action json");
                       api.action("exampleapp", "json", {
-                        ship: this.state.ship
+                        ship: this.state.ship,
+                        contract: "BB9bc244D798123fDe783fCc1C72d3Bb8C189413"
                       });
                     }}
                   >
@@ -52,12 +53,31 @@ export class Root extends Component {
                     className="dib f9 pa3 bt bb bl br tc pointer bg-white"
                     onClick={() => {
                       console.log("Send action json");
-                      api.action("exampleapp", "add-contract", {
-                        contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
+                      // TODO
+                      // contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
+                      api.action("exampleapp", "json", {
+                        create: {
+                          ship: this.state.ship
+                        }
                       });
                     }}
                   >
                     Send Contract to app
+                  </a>
+                  <a
+                    className="dib f9 pa3 bt bb bl br tc pointer bg-white"
+                    onClick={() => {
+                      console.log("Send action json");
+                      // TODO
+                      // contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
+                      api.action("exampleapp", "json", {
+                        delete: {
+                          ship: this.state.ship
+                        }
+                      });
+                    }}
+                  >
+                    Remove Contract from gall app
                   </a>
                   <p className="white absolute" style={{ top: 150, left: 15 }}>
                     <input

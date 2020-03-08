@@ -45,7 +45,7 @@
 +$  versioned-state
   $%  state-zero
   ==
-+$  state-zero  [%0 data=json ship=@p contract=@t contracts=(set @t)]
++$  state-zero  [%0 ship=@p contract=@t contracts=(set @t)]
 --
 =|  state-zero
 =*  state  -
@@ -160,13 +160,11 @@
   ~&  'handle-create'
   ~&  act
   ?>  ?=(%create -.act)
+  =/  new-state  state(contract contract.act)
   ~&  'new state'
-  ~&  state(contract contract.act)
-:: TODO prev state will be sent to landscape app
-  :-  [%give %fact `/state/update %json !>(make-tile-json)]~
-  %=  state
-  contract  contract.act
-  ==
+  ~&  new-state
+  :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
+  new-state
 ::
 ++  handle-add-contract
   |=  act=example-action
@@ -174,11 +172,11 @@
   ~&  'handle-create'
   ~&  act
   ?>  ?=(%add-contract -.act)
+  =/  new-state  state(contracts (~(put in contracts.state) contract.act))
   ~&  'new state'
-  ~&  state(contracts (~(put in contracts.state) contract.act))
-:: TODO prev state will be sent to landscape app
-  :-  [%give %fact `/state/update %json !>(make-tile-json)]~
-  state(contracts (~(put in contracts.state) contract.act))
+  ~&  new-state
+  :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
+  new-state
 ::
 ++  handle-delete
   |=  act=example-action
@@ -186,14 +184,15 @@
   ~&  'handle-delete'
   ~&  act
   ?>  ?=(%delete -.act)
+  =/  new-state
+    %=  state
+      ship  ship.act
+      contract  ''
+    ==
   ~&  'new state'
-  ~&  state(contract '')
-:: TODO prev state will be sent to landscape app
-  :-  [%give %fact `/state/update %json !>(make-tile-json)]~
-  %=  state
-  ship  ship.act
-  contract  ''
-  ==
+  ~&  new-state
+  :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
+  new-state
 ::
 ++  poke-json
   |=  jon=json
@@ -211,20 +210,21 @@
   ~&  state
 ::  [~ state(ship ship)]
 ::  [[%give %fact `/state/update %json !>(jon)]~ state(ship ship)]
-  :-  [%give %fact `/state/update %json !>(make-tile-json)]~ 
+  :-  [%give %fact `/state/update %json !>((make-tile-json state))]~ 
   %=  state
     ship  ship
     contract  contract-sample
   ==
 ::  state(ship ship)]
 ++  make-tile-json
+  |=  new-state=_state
   ^-  json
   =,  enjs:format
   %-  pairs
-  :~  [%contract (tape (trip contract.state))]
+  :~  [%contract (tape (trip contract.new-state))]
 ::    TODO
-::      [%contracts contracts.state]
-      [%ship (ship ship.state)]
+::      [%contracts ~(tap in contracts.state)]
+      [%ship (ship ship.new-state)]
   ==
 ::
 ++  poke-handle-http-request

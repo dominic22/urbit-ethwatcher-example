@@ -36,7 +36,7 @@
 +$  card  card:agent:gall
 
 +$  example-action
-  $%  [%create =ship]
+  $%  [%create contract=@t]
       [%delete =ship]
   ==
 
@@ -131,9 +131,8 @@
     ==
   ::
   ++  create
-    %-  ot
-    :~  [%ship (su ;~(pfix sig fed:ag))]
-    ==
+    ~&  'CREATE CREATE'
+    (ot contract+so ~)
   ::
   ++  delete
     (ot [%ship (su ;~(pfix sig fed:ag))]~)

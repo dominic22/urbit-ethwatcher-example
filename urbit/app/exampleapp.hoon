@@ -37,13 +37,15 @@
 
 +$  example-action
   $%  [%create contract=@t]
+      [%add-contract contract=@t]
+::      [%remove-contract contract=@t]
       [%delete =ship]
   ==
 
 +$  versioned-state
   $%  state-zero
   ==
-+$  state-zero  [%0 data=json ship=@p contract=@t]
++$  state-zero  [%0 data=json ship=@p contract=@t contracts=(set @t)]
 --
 =|  state-zero
 =*  state  -
@@ -125,13 +127,14 @@
   |%
   ++  parse-json
     %-  of
-    :~  [%create create]
+    :~  [%create parse-contract]
+        [%add-contract parse-contract]
         [%delete delete]
     ==
-  ::
-  ++  create
+::
+  ++  parse-contract
     (ot contract+so ~)
-  ::
+::
   ++  delete
     (ot [%ship (su ;~(pfix sig fed:ag))]~)
   --
@@ -147,6 +150,7 @@
   ~&  'poke-action'
   ?-  -.action
       %create    (handle-create action)
+      %add-contract  (handle-add-contract action)
       %delete    (handle-delete action)
   ==
 ::
@@ -163,6 +167,18 @@
   %=  state
   contract  contract.act
   ==
+::
+++  handle-add-contract
+  |=  act=example-action
+  ^-  (quip card _state)
+  ~&  'handle-create'
+  ~&  act
+  ?>  ?=(%add-contract -.act)
+  ~&  'new state'
+  ~&  state(contracts (~(put in contracts.state) contract.act))
+:: TODO prev state will be sent to landscape app
+  :-  [%give %fact `/state/update %json !>(make-tile-json)]~
+  state(contracts (~(put in contracts.state) contract.act))
 ::
 ++  handle-delete
   |=  act=example-action
@@ -206,6 +222,8 @@
   =,  enjs:format
   %-  pairs
   :~  [%contract (tape (trip contract.state))]
+::    TODO
+::      [%contracts contracts.state]
       [%ship (ship ship.state)]
   ==
 ::

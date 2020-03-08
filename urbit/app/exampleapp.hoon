@@ -130,7 +130,6 @@
     ==
   ::
   ++  create
-    ~&  'CREATE CREATE'
     (ot contract+so ~)
   ::
   ++  delete
@@ -156,15 +155,29 @@
   ^-  (quip card _state)
   ~&  'handle-create'
   ~&  act
-::  ?>  ?=(%create -.act)
-  [~ state]
+  ?>  ?=(%create -.act)
+  ~&  'new state'
+  ~&  state(contract contract.act)
+:: TODO prev state will be sent to landscape app
+  :-  [%give %fact `/state/update %json !>(make-tile-json)]~
+  %=  state
+  contract  contract.act
+  ==
 ::
 ++  handle-delete
   |=  act=example-action
   ^-  (quip card _state)
   ~&  'handle-delete'
   ~&  act
-  [~ state]
+  ?>  ?=(%delete -.act)
+  ~&  'new state'
+  ~&  state(contract '')
+:: TODO prev state will be sent to landscape app
+  :-  [%give %fact `/state/update %json !>(make-tile-json)]~
+  %=  state
+  ship  ship.act
+  contract  ''
+  ==
 ::
 ++  poke-json
   |=  jon=json
@@ -193,7 +206,7 @@
   =,  enjs:format
   %-  pairs
   :~  [%contract (tape (trip contract.state))]
-      [%shipaa (ship ship.state)]
+      [%ship (ship ship.state)]
   ==
 ::
 ++  poke-handle-http-request

@@ -72,7 +72,6 @@
     ?.  ?=(%bound +<.sign-arvo)
       (on-arvo:def wire sign-arvo)
     [~ this]
-::  ++  on-save  !>(state)
   ++  on-save  !>(state)
   ++  on-load
     |=  old=vase
@@ -142,7 +141,6 @@
   |=  jon=json
   ^-  (quip card _state)
   (poke-action (json-to-action jon))
-::  (poke-action (json-to-action jon))
 ::
 ++  poke-action
   |=  action=example-action

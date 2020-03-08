@@ -38,7 +38,7 @@
 +$  example-action
   $%  [%create contract=@t]
       [%add-contract contract=@t]
-::      [%remove-contract contract=@t]
+      [%remove-contract contract=@t]
       [%delete =ship]
   ==
 
@@ -129,6 +129,7 @@
     %-  of
     :~  [%create parse-contract]
         [%add-contract parse-contract]
+        [%remove-contract parse-contract]
         [%delete delete]
     ==
 ::
@@ -151,6 +152,7 @@
   ?-  -.action
       %create    (handle-create action)
       %add-contract  (handle-add-contract action)
+      %remove-contract  (handle-remove-contract action)
       %delete    (handle-delete action)
   ==
 ::
@@ -173,6 +175,18 @@
   ~&  act
   ?>  ?=(%add-contract -.act)
   =/  new-state  state(contracts (~(put in contracts.state) contract.act))
+  ~&  'new state'
+  ~&  new-state
+  :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
+  new-state
+::
+++  handle-remove-contract
+  |=  act=example-action
+  ^-  (quip card _state)
+  ~&  'handle-remove-contract'
+  ~&  act
+  ?>  ?=(%remove-contract -.act)
+  =/  new-state  state(contracts (~(del in contracts.state) contract.act))
   ~&  'new state'
   ~&  new-state
   :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~

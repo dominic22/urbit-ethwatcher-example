@@ -42,18 +42,6 @@ export class Root extends Component {
                     onClick={() => {
                       console.log("Send action json");
                       api.action("exampleapp", "json", {
-                        ship: this.state.ship,
-                        contract: "BB9bc244D798123fDe783fCc1C72d3Bb8C189413"
-                      });
-                    }}
-                  >
-                    Send Hi to Gall App
-                  </a>
-                  <a
-                    className="dib f9 pa3 bt bb bl br tc pointer bg-white"
-                    onClick={() => {
-                      console.log("Send action json");
-                      api.action("exampleapp", "json", {
                         "add-contract": {
                           contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
                         }
@@ -61,6 +49,19 @@ export class Root extends Component {
                     }}
                   >
                     Add contract to set
+                  </a>
+                  <a
+                    className="dib f9 pa3 bt bb bl br tc pointer bg-white"
+                    onClick={() => {
+                      console.log("Send action json");
+                      api.action("exampleapp", "json", {
+                        "remove-contract": {
+                          contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
+                        }
+                      });
+                    }}
+                  >
+                    Remove contract from set
                   </a>
                   <a
                     className="dib f9 pa3 bt bb bl br tc pointer bg-white"

@@ -234,12 +234,16 @@
   |=  new-state=_state
   ^-  json
   =,  enjs:format
+  =/  contracts-list  ~(tap in contracts.state)
   %-  pairs
   :~  [%contract (tape (trip contract.new-state))]
-::    TODO
-::      [%contracts ~(tap in contracts.state)]
-      [%ship (ship ship.new-state)]
+      [%contracts `json`a+(turn `wain`contracts-list |=(=cord s+cord))]
+      [%shipa2 (ship ship.new-state)]
   ==
+++  set-to-array
+  |*  {a/(set) b/$-(* json)}
+  ^-  json
+  [%a (turn ~(tap in a) b)]
 ::
 ++  poke-handle-http-request
   |=  =inbound-request:eyre

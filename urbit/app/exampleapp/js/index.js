@@ -44600,31 +44600,94 @@
                 super(props);
                 console.log("og props");
                 console.log(this.props);
-                this.state = { ship: "~binbes-rantem" };
+                this.state = {
+                  contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
+                };
               }
 
-              handleChange(event) {
-                this.setState({ ship: event.target.value });
+              // handleChange(event) {
+              //   this.setState({ ship: event.target.value });
+              // }
+
+              handleContractChange(event) {
+                this.setState({ contract: event.target.value });
+              }
+
+              renderContractsList() {
+                return (
+                  react.createElement('div', { className: "w-100 w-60-ns pr3-ns order-2 order-1-ns pa3 pa5-ns"      , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 28}}
+                    , react.createElement('ul', { className: "list pl0 measure center"   , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 29}}
+                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 30}}, "Orange"
+
+                      )
+                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 33}}, "Apple"
+
+                      )
+                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-gray bg-animate  hover-bg-light-blue"           , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 36}}, "Peach"
+
+                      )
+                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 39}}, "Grape"
+
+                      )
+                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 42}}, "Grapefruit"
+
+                      )
+                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 45}}, "Kiwi"
+
+                      )
+                    )
+                  )
+                );
               }
 
               render() {
                 return (
-                  react.createElement(BrowserRouter, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 22}}
-                    , react.createElement('div', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 23}}
-                      , react.createElement(HeaderBar, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 24}} )
+                  react.createElement(BrowserRouter, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 55}}
+                    , react.createElement('div', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 56}}
+                      , react.createElement(HeaderBar, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 57}} )
                       , react.createElement(Route, {
                         exact: true,
                         path: "/~exampleapp",
                         render: () => {
                           return (
-                            react.createElement('div', { className: "pa3 w-100" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 30}}
-                              , react.createElement('h1', { className: "mt0 f2" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 31}}, "exampleapp")
-                              , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 32}}, "Welcome to your exampless appssss!"
+                            react.createElement('div', { className: "pa3 w-100" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 63}}
+                              , react.createElement('h1', { className: "mt0 f2" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 64}}, "exampleapp")
+                              , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 65}}, "Welcome to your exampless app!"
 
                               )
-                              , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 35}}, "To get started, edit "
-                                    , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 36}}, "src/index.js"), " or" , " "
-                                , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 37}}, "exampleapp.hoon"), " and "  , react.createElement('code', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 37}}, "|commit %home" ), " ", "on your Urbit ship to see your changes."
+                              , react.createElement('div', { className: "flex flex-column flex-row-ns"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 68}}
+                                , this.renderContractsList()
+                                , react.createElement('div', { className: "pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-40-ns"      , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 70}}
+                                  , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 71}}, "Content on the right of the list for event logs..."         )
+                                )
+                              )
+                              , react.createElement('div', { className: "pa4 black-80" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 74}}
+                                , react.createElement('div', { className: "measure", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 75}}
+                                  , react.createElement('label', { htmlFor: "name", className: "f6 b db mb2"   , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 76}}, "Contract Address"
+                                     , " "
+                                    , react.createElement('span', { className: "normal black-60" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 78}}, "(beginning with 0x)"  )
+                                  )
+                                  , react.createElement('input', {
+                                    id: "name",
+                                    className: "input-reset ba b--black-20 pa2 mb2 db w-100"      ,
+                                    type: "text",
+                                    value: this.state.contract,
+                                    onChange: this.handleContractChange.bind(this),
+                                    'aria-describedby': "name-desc", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 80}}
+                                  )
+                                )
+                              )
+                              , react.createElement('a', {
+                                className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
+                                onClick: () => {
+                                  console.log("Send action json");
+                                  api.action("exampleapp", "json", {
+                                    "add-contract": {
+                                      contract: this.state.contract
+                                    }
+                                  });
+                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 90}}
+                              , "Add contract to set"
 
                               )
                               , react.createElement('a', {
@@ -44632,23 +44695,51 @@
                                 onClick: () => {
                                   console.log("Send action json");
                                   api.action("exampleapp", "json", {
-                                    ship: this.state.ship
+                                    "remove-contract": {
+                                      contract: this.state.contract
+                                    }
                                   });
-                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 40}}
-                              , "Send Hi to Gall App"
+                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 103}}
+                              , "Remove contract from set"
 
                               )
-                              /*<p className="white absolute" style={{ top: 150, left: 15 }}>
-                                <input
-                                  type="text"
-                                  value={this.state.ship}
-                                  onChange={this.handleChange.bind(this)}
-                                />
-                              </p>*/
-                              , react.createElement('div', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 58}}, "Current ship: "  , this.state.ship)
+                              , react.createElement('a', {
+                                className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
+                                onClick: () => {
+                                  console.log("Send contract action json 2s");
+                                  api.action("exampleapp", "json", {
+                                    create: {
+                                      contract: this.state.contract
+                                    }
+                                  });
+                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 116}}
+                              , "Initial create action"
+
+                              )
+                              /*<a*/
+                              /*  className="dib f9 pa3 bt bb bl br tc pointer bg-white"*/
+                              /*  onClick={() => {*/
+                              /*    console.log("Send action json");*/
+                              /*    api.action("exampleapp", "json", {*/
+                              /*      delete: {*/
+                              /*        ship: this.state.ship*/
+                              /*      }*/
+                              /*    });*/
+                              /*  }}*/
+                              /*>*/
+                              /*  Remove Contract from gall app*/
+                              /*</a>*/
+                              /*<p className="white absolute" style={{ top: 150, left: 15 }}>*/
+                              /*  <input*/
+                              /*    type="text"*/
+                              /*    value={this.state.ship}*/
+                              /*    onChange={this.handleChange.bind(this)}*/
+                              /*  />*/
+                              /*</p>*/
+                              /*<div>Current ship: {this.state.ship}</div>*/
                             )
                           );
-                        }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 25}}
+                        }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 58}}
                       )
                     )
                   )
@@ -44690,31 +44781,41 @@
             }
 
             class Store {
-                constructor() {
-                    this.state = {
-                        inbox: {}
-                    };
+              constructor() {
+                this.state = {
+                  inbox: {}
+                };
 
-                    this.initialReducer = new InitialReducer();
-                    this.configReducer = new ConfigReducer();
-                    this.updateReducer = new UpdateReducer();
-                    this.setState = () => { };
-                }
+                this.initialReducer = new InitialReducer();
+                this.configReducer = new ConfigReducer();
+                this.updateReducer = new UpdateReducer();
+                this.setState = () => {};
+              }
 
-                setStateHandler(setState) {
-                    this.setState = setState;
-                }
+              setStateHandler(setState) {
+                this.setState = setState;
+              }
 
-                handleEvent(data) {
-                    let json = data.data;
+              handleEvent(data) {
+                let json = data.data;
+                console.log("HANDLE DATA", data);
+                console.log(json);
+                this.initialReducer.reduce(json, this.state);
+                this.configReducer.reduce(json, this.state);
+                this.updateReducer.reduce(json, this.state);
 
-                    console.log(json);
-                    this.initialReducer.reduce(json, this.state);
-                    this.configReducer.reduce(json, this.state);
-                    this.updateReducer.reduce(json, this.state);
+                this.setState(this.state);
+              }
+              handleStateUpdateEvent(data) {
+                let json = data.data;
+                console.log("HANDLE STATE UPDATE", data);
+                console.log(json);
+                this.initialReducer.reduce(json, this.state);
+                this.configReducer.reduce(json, this.state);
+                this.updateReducer.reduce(json, this.state);
 
-                    this.setState(this.state);
-                }
+                this.setState(this.state);
+              }
             }
 
             let store = new Store();
@@ -53221,20 +53322,41 @@ lyrtesmudnytbyrsenwegfyrmurtelreptegpecnelnevfes\
               }
 
               initializeexampleapp() {
-                api.bind('/primary', 'PUT', api.authTokens.ship, 'exampleapp',
+                api.bind(
+                  "/primary",
+                  "PUT",
+                  api.authTokens.ship,
+                  "exampleapp",
                   this.handleEvent.bind(this),
-                  this.handleError.bind(this));
+                  this.handleError.bind(this)
+                );
+                api.bind(
+                  "/state/update",
+                  "PUT",
+                  api.authTokens.ship,
+                  "exampleapp",
+                  this.handleStateUpdateEvent.bind(this),
+                  this.handleError.bind(this)
+                );
               }
 
+              handleStateUpdateEvent(diff) {
+                store.handleStateUpdateEvent(diff);
+              }
               handleEvent(diff) {
                 store.handleEvent(diff);
               }
 
               handleError(err) {
                 console.error(err);
-                api.bind('/primary', 'PUT', api.authTokens.ship, 'exampleapp',
+                api.bind(
+                  "/primary",
+                  "PUT",
+                  api.authTokens.ship,
+                  "exampleapp",
                   this.handleEvent.bind(this),
-                  this.handleError.bind(this));
+                  this.handleError.bind(this)
+                );
               }
             }
 

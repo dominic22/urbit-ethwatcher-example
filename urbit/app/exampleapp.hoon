@@ -102,7 +102,6 @@
   ++  on-watch
     |=  =path
     ^-  (quip card _this)
-    ~&  'on-watch'
     ?:  ?=([%http-response *] path)
       `this
     ?:  =(/primary path)

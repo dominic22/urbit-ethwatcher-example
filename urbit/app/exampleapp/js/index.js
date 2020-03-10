@@ -27360,55 +27360,6 @@
               });
             }
 
-            var classnames = createCommonjsModule(function (module) {
-            /*!
-              Copyright (c) 2017 Jed Watson.
-              Licensed under the MIT License (MIT), see
-              http://jedwatson.github.io/classnames
-            */
-            /* global define */
-
-            (function () {
-
-            	var hasOwn = {}.hasOwnProperty;
-
-            	function classNames () {
-            		var classes = [];
-
-            		for (var i = 0; i < arguments.length; i++) {
-            			var arg = arguments[i];
-            			if (!arg) continue;
-
-            			var argType = typeof arg;
-
-            			if (argType === 'string' || argType === 'number') {
-            				classes.push(arg);
-            			} else if (Array.isArray(arg) && arg.length) {
-            				var inner = classNames.apply(null, arg);
-            				if (inner) {
-            					classes.push(inner);
-            				}
-            			} else if (argType === 'object') {
-            				for (var key in arg) {
-            					if (hasOwn.call(arg, key) && arg[key]) {
-            						classes.push(key);
-            					}
-            				}
-            			}
-            		}
-
-            		return classes.join(' ');
-            	}
-
-            	if ( module.exports) {
-            		classNames.default = classNames;
-            		module.exports = classNames;
-            	} else {
-            		window.classNames = classNames;
-            	}
-            }());
-            });
-
             var lodash = createCommonjsModule(function (module, exports) {
             (function() {
 
@@ -44548,6 +44499,142 @@
             let api = new UrbitApi();
             window.api = api;
 
+            class InitialReducer {
+                reduce(json, state) {
+                    let data = lodash.get(json, 'initial', false);
+                    if (data) {
+                        state.inbox = data.inbox;
+                    }
+                }
+            }
+
+            class ContractsReducer {
+                reduce(json, state) {
+                    let data = json;
+                    console.log('received data', data);
+                    if (data) {
+                        state.contracts = data.contracts;
+                    }
+                }
+            }
+
+            class ConfigReducer {
+                reduce(json, state) {
+                    let data = lodash.get(json, 'exampleapp', false);
+                    if (data) {
+                        state.inbox = data.inbox;
+                    }
+                }
+            }
+
+            class UpdateReducer {
+                reduce(json, state) {
+                    let data = lodash.get(json, 'update', false);
+                    if (data) {
+                        this.reduceInbox(lodash.get(data, 'inbox', false), state);
+                    }
+                }
+
+                reduceInbox(inbox, state) {
+                    if (inbox) {
+                        state.inbox = inbox;
+                    }
+                }
+            }
+
+            class Store {
+              constructor() {
+                this.state = {
+                  inbox: {}
+                };
+
+                this.initialReducer = new InitialReducer();
+                this.configReducer = new ConfigReducer();
+                this.contractsReducer = new ContractsReducer();
+                this.updateReducer = new UpdateReducer();
+                this.setState = () => {};
+              }
+
+              setStateHandler(setState) {
+                this.setState = setState;
+              }
+
+              handleEvent(data) {
+                let json = data.data;
+                // console.log("HANDLE DATA", data);
+                // console.log(json);
+                this.initialReducer.reduce(json, this.state);
+                this.configReducer.reduce(json, this.state);
+                this.contractsReducer.reduce(json, this.state);
+                this.updateReducer.reduce(json, this.state);
+
+                this.setState(this.state);
+              }
+              handleStateUpdateEvent(data) {
+                let json = data.data;
+                // console.log("HANDLE STATE UPDATE", data);
+                // console.log(json);
+                this.initialReducer.reduce(json, this.state);
+                this.configReducer.reduce(json, this.state);
+                this.contractsReducer.reduce(json, this.state);
+                this.updateReducer.reduce(json, this.state);
+
+                this.setState(this.state);
+              }
+            }
+
+            let store = new Store();
+            window.store = store;
+
+            var classnames = createCommonjsModule(function (module) {
+            /*!
+              Copyright (c) 2017 Jed Watson.
+              Licensed under the MIT License (MIT), see
+              http://jedwatson.github.io/classnames
+            */
+            /* global define */
+
+            (function () {
+
+            	var hasOwn = {}.hasOwnProperty;
+
+            	function classNames () {
+            		var classes = [];
+
+            		for (var i = 0; i < arguments.length; i++) {
+            			var arg = arguments[i];
+            			if (!arg) continue;
+
+            			var argType = typeof arg;
+
+            			if (argType === 'string' || argType === 'number') {
+            				classes.push(arg);
+            			} else if (Array.isArray(arg) && arg.length) {
+            				var inner = classNames.apply(null, arg);
+            				if (inner) {
+            					classes.push(inner);
+            				}
+            			} else if (argType === 'object') {
+            				for (var key in arg) {
+            					if (hasOwn.call(arg, key) && arg[key]) {
+            						classes.push(key);
+            					}
+            				}
+            			}
+            		}
+
+            		return classes.join(' ');
+            	}
+
+            	if ( module.exports) {
+            		classNames.default = classNames;
+            		module.exports = classNames;
+            	} else {
+            		window.classNames = classNames;
+            	}
+            }());
+            });
+
             const _jsxFileName = "/home/do7ze5/urbit/urbit-ethwatcher-example/src/js/components/lib/icons/icon-home.js";
             class IconHome extends react_1 {
               render() {
@@ -44598,11 +44685,14 @@
             class Root extends react_1 {
               constructor(props) {
                 super(props);
-                console.log("og props");
+                console.log('og props');
                 console.log(this.props);
-                this.state = {
-                  contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
-                };
+                // this.state = {
+                //   contract: "0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"
+                // };
+
+                this.state = store.state;
+                store.setStateHandler(this.setState.bind(this));
               }
 
               // handleChange(event) {
@@ -44614,27 +44704,26 @@
               }
 
               renderContractsList() {
+                const { contracts } = this.state;
+                if(!contracts) {
+                  return react.createElement('p', { className: "measure center" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 31}}, "There are no contracts, feel free to add one."        );
+                }
+
                 return (
-                  react.createElement('div', { className: "w-100 w-60-ns pr3-ns order-2 order-1-ns pa3 pa5-ns"      , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 28}}
-                    , react.createElement('ul', { className: "list pl0 measure center"   , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 29}}
-                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 30}}, "Orange"
-
+                  react.createElement('div', { className: "flex flex-column flex-row-ns"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 35}}
+                    , react.createElement('div', { className: "w-100 w-60-ns pr3-ns order-2 order-1-ns"    , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 36}}
+                      , react.createElement('ul', { className: "list pl0 measure ma0"   , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 37}}
+                        , contracts.map(contract => {
+                          return (react.createElement('li', {
+                            key: contract,
+                            className: "lh-copy pl3 pv3 ba bl-0 bt-0 br-0 b--solid b--black-30 bg-white bg-animate hover-bg-light-blue"           , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 39}}
+                            , contract
+                          ))
+                        })
                       )
-                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 33}}, "Apple"
-
-                      )
-                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-gray bg-animate  hover-bg-light-blue"           , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 36}}, "Peach"
-
-                      )
-                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 39}}, "Grape"
-
-                      )
-                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 42}}, "Grapefruit"
-
-                      )
-                      , react.createElement('li', { className: "lh-copy pv3 ba bl-0 bt-0 br-0 b--dotted b--black-30 bg-white bg-animate hover-bg-light-blue"          , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 45}}, "Kiwi"
-
-                      )
+                    )
+                    , react.createElement('div', { className: "pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-40-ns"      , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 47}}
+                      , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 48}}, "Content on the right of the list for event logs..."         )
                     )
                   )
                 );
@@ -44642,184 +44731,81 @@
 
               render() {
                 return (
-                  react.createElement(BrowserRouter, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 55}}
-                    , react.createElement('div', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 56}}
-                      , react.createElement(HeaderBar, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 57}} )
+                  react.createElement(BrowserRouter, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 56}}
+                    , react.createElement('div', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 57}}
+                      , react.createElement(HeaderBar, {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 58}})
                       , react.createElement(Route, {
                         exact: true,
                         path: "/~exampleapp",
                         render: () => {
                           return (
-                            react.createElement('div', { className: "pa3 w-100" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 63}}
-                              , react.createElement('h1', { className: "mt0 f2" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 64}}, "exampleapp")
-                              , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 65}}, "Welcome to your exampless app!"
-
-                              )
-                              , react.createElement('div', { className: "flex flex-column flex-row-ns"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 68}}
-                                , this.renderContractsList()
-                                , react.createElement('div', { className: "pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-40-ns"      , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 70}}
-                                  , react.createElement('p', { className: "lh-copy measure pt3"  , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 71}}, "Content on the right of the list for event logs..."         )
-                                )
-                              )
-                              , react.createElement('div', { className: "pa4 black-80" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 74}}
-                                , react.createElement('div', { className: "measure", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 75}}
-                                  , react.createElement('label', { htmlFor: "name", className: "f6 b db mb2"   , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 76}}, "Contract Address"
-                                     , " "
-                                    , react.createElement('span', { className: "normal black-60" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 78}}, "(beginning with 0x)"  )
+                            react.createElement('div', { className: "w-100", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 64}}
+                              , react.createElement('div', { className: "pa4 black-80" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 65}}
+                                , react.createElement('div', { className: "measure", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 66}}
+                                  , react.createElement('label', { htmlFor: "name", className: "f6 b db mb2"   , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 67}}, "Contract Address"
+                                     , ' '
+                                    , react.createElement('span', { className: "normal black-60" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 69}}, "(beginning with 0x)"  )
                                   )
                                   , react.createElement('input', {
                                     id: "name",
                                     className: "input-reset ba b--black-20 pa2 mb2 db w-100"      ,
                                     type: "text",
-                                    value: this.state.contract,
+                                    value: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413',
                                     onChange: this.handleContractChange.bind(this),
-                                    'aria-describedby': "name-desc", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 80}}
+                                    'aria-describedby': "name-desc", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 71}}
                                   )
                                 )
                               )
                               , react.createElement('a', {
                                 className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
                                 onClick: () => {
-                                  console.log("Send action json");
-                                  api.action("exampleapp", "json", {
-                                    "add-contract": {
-                                      contract: this.state.contract
+                                  console.log('Send action json');
+                                  api.action('exampleapp', 'json', {
+                                    'add-contract': {
+                                      contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
                                     }
                                   });
-                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 90}}
+                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 81}}
                               , "Add contract to set"
 
                               )
                               , react.createElement('a', {
                                 className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
                                 onClick: () => {
-                                  console.log("Send action json");
-                                  api.action("exampleapp", "json", {
-                                    "remove-contract": {
-                                      contract: this.state.contract
+                                  console.log('Send action json');
+                                  api.action('exampleapp', 'json', {
+                                    'remove-contract': {
+                                      contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
                                     }
                                   });
-                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 103}}
+                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 94}}
                               , "Remove contract from set"
 
                               )
                               , react.createElement('a', {
                                 className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
                                 onClick: () => {
-                                  console.log("Send contract action json 2s");
-                                  api.action("exampleapp", "json", {
+                                  console.log('Send contract action json 2s');
+                                  api.action('exampleapp', 'json', {
                                     create: {
-                                      contract: this.state.contract
+                                      contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
                                     }
                                   });
-                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 116}}
+                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 107}}
                               , "Initial create action"
 
                               )
-                              /*<a*/
-                              /*  className="dib f9 pa3 bt bb bl br tc pointer bg-white"*/
-                              /*  onClick={() => {*/
-                              /*    console.log("Send action json");*/
-                              /*    api.action("exampleapp", "json", {*/
-                              /*      delete: {*/
-                              /*        ship: this.state.ship*/
-                              /*      }*/
-                              /*    });*/
-                              /*  }}*/
-                              /*>*/
-                              /*  Remove Contract from gall app*/
-                              /*</a>*/
-                              /*<p className="white absolute" style={{ top: 150, left: 15 }}>*/
-                              /*  <input*/
-                              /*    type="text"*/
-                              /*    value={this.state.ship}*/
-                              /*    onChange={this.handleChange.bind(this)}*/
-                              /*  />*/
-                              /*</p>*/
-                              /*<div>Current ship: {this.state.ship}</div>*/
+                              , this.renderContractsList()
+
                             )
                           );
-                        }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 58}}
+                        }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 59}}
                       )
                     )
                   )
                 );
               }
             }
-
-            class InitialReducer {
-                reduce(json, state) {
-                    let data = lodash.get(json, 'initial', false);
-                    if (data) {
-                        state.inbox = data.inbox;
-                    }
-                }
-            }
-
-            class ConfigReducer {
-                reduce(json, state) {
-                    let data = lodash.get(json, 'exampleapp', false);
-                    if (data) {
-                        state.inbox = data.inbox;
-                    }
-                }
-            }
-
-            class UpdateReducer {
-                reduce(json, state) {
-                    let data = lodash.get(json, 'update', false);
-                    if (data) {
-                        this.reduceInbox(lodash.get(data, 'inbox', false), state);
-                    }
-                }
-
-                reduceInbox(inbox, state) {
-                    if (inbox) {
-                        state.inbox = inbox;
-                    }
-                }
-            }
-
-            class Store {
-              constructor() {
-                this.state = {
-                  inbox: {}
-                };
-
-                this.initialReducer = new InitialReducer();
-                this.configReducer = new ConfigReducer();
-                this.updateReducer = new UpdateReducer();
-                this.setState = () => {};
-              }
-
-              setStateHandler(setState) {
-                this.setState = setState;
-              }
-
-              handleEvent(data) {
-                let json = data.data;
-                console.log("HANDLE DATA", data);
-                console.log(json);
-                this.initialReducer.reduce(json, this.state);
-                this.configReducer.reduce(json, this.state);
-                this.updateReducer.reduce(json, this.state);
-
-                this.setState(this.state);
-              }
-              handleStateUpdateEvent(data) {
-                let json = data.data;
-                console.log("HANDLE STATE UPDATE", data);
-                console.log(json);
-                this.initialReducer.reduce(json, this.state);
-                this.configReducer.reduce(json, this.state);
-                this.updateReducer.reduce(json, this.state);
-
-                this.setState(this.state);
-              }
-            }
-
-            let store = new Store();
-            window.store = store;
 
             var lookup = [];
             var revLookup = [];

@@ -6,7 +6,8 @@ export class ContractsReducer {
         let data = json;
         console.log('received data', data);
         if (data) {
-            state.contracts = data.contracts;
+            state.contracts = data.contracts || state.contracts;
+            state.contract = data.contract || state.contracts;
         }
     }
 }

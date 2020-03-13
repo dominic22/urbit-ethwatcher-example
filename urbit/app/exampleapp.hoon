@@ -39,7 +39,6 @@
   $%  [%create contract=@t]
       [%add-contract contract=@t]
       [%remove-contract contract=@t]
-      [%delete =ship]
   ==
 
 +$  versioned-state
@@ -129,14 +128,11 @@
     :~  [%create parse-contract]
         [%add-contract parse-contract]
         [%remove-contract parse-contract]
-        [%delete delete]
     ==
 ::
   ++  parse-contract
     (ot contract+so ~)
 ::
-  ++  delete
-    (ot [%ship (su ;~(pfix sig fed:ag))]~)
   --
 ::
 ++  poke-action-name
@@ -152,7 +148,6 @@
       %create    (handle-create action)
       %add-contract  (handle-add-contract action)
       %remove-contract  (handle-remove-contract action)
-      %delete    (handle-delete action)
   ==
 ::
 ++  handle-create
@@ -191,22 +186,6 @@
   :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
   new-state
 ::
-++  handle-delete
-  |=  act=example-action
-  ^-  (quip card _state)
-  ~&  'handle-delete'
-  ~&  act
-  ?>  ?=(%delete -.act)
-  =/  new-state
-    %=  state
-      ship  ship.act
-      contract  ''
-    ==
-  ~&  'new state'
-  ~&  new-state
-  :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
-  new-state
-::
 ++  poke-json
   |=  jon=json
   ^-  (quip card _state)
@@ -233,7 +212,7 @@
   |=  new-state=_state
   ^-  json
   =,  enjs:format
-  =/  contracts-list  ~(tap in contracts.state)
+  =/  contracts-list  ~(tap in contracts.new-state)
   %-  pairs
   :~  [%contract (tape (trip contract.new-state))]
       [%contracts `json`a+(turn `wain`contracts-list |=(=cord s+cord))]

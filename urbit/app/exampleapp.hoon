@@ -135,6 +135,12 @@
 ::
   --
 ::
+++  contract-cord-to-hex
+  |=  contract=@t
+  ^-  @ux
+  =/  contract-tape  (cass q:(trim 2 (trip contract)))
+  `@ux`(scan contract-tape hex) 
+::
 ++  poke-action-name
   |=  jon=json
   ^-  (quip card _state)
@@ -143,7 +149,7 @@
 ++  poke-action
   |=  action=example-action
   ^-  (quip card _state)
-  ~&  'poke-action'
+  ~&  '%poke-action'
   ?-  -.action
       %create    (handle-create action)
       %add-contract  (handle-add-contract action)
@@ -153,36 +159,31 @@
 ++  handle-create
   |=  act=example-action
   ^-  (quip card _state)
-  ~&  'handle-create'
-  ~&  act
+  ~&  '%handle-create'
+  ~&  '%contract-cord-to-hex'
+  ~&  (contract-cord-to-hex contract.act)
   ?>  ?=(%create -.act)
   =/  new-state  state(contract contract.act)
-  ~&  'new state'
-  ~&  new-state
   :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
   new-state
 ::
 ++  handle-add-contract
   |=  act=example-action
   ^-  (quip card _state)
-  ~&  'handle-create'
+  ~&  '%handle-create'
   ~&  act
   ?>  ?=(%add-contract -.act)
   =/  new-state  state(contracts (~(put in contracts.state) contract.act))
-  ~&  'new state'
-  ~&  new-state
   :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
   new-state
 ::
 ++  handle-remove-contract
   |=  act=example-action
   ^-  (quip card _state)
-  ~&  'handle-remove-contract'
+  ~&  '%handle-remove-contract'
   ~&  act
   ?>  ?=(%remove-contract -.act)
   =/  new-state  state(contracts (~(del in contracts.state) contract.act))
-  ~&  'new state'
-  ~&  new-state
   :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
   new-state
 ::

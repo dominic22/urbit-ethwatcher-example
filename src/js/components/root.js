@@ -89,21 +89,24 @@ export class Root extends Component {
               return (
                 <li
                   key={contract}
-                  className="lh-copy pl3 pv3 ba bl-0 bt-0 br-0 b--solid b--black-30 bg-white bg-animate hover-bg-light-gray flex flex-column flex-row-ns justify-between"
+                  className={`lh-copy pl3 pv3 ba bl-0 bt-0 br-0 b--solid b--black-30 bg-animate hover-bg-light-gray pointer ${this.state.selectedContract === contract ? 'bg-black-20' : 'bg-white'}`}
+                  onClick={() => this.setState({ selectedContract: contract })}
                 >
-                  <p className="pt3">{contract}</p>
-                  <a
-                    className="dib f9 pa3 bt bb bl br tc pointer bg-white mr3"
-                    onClick={() => {
-                      api.action('exampleapp', 'json', {
-                        'remove-contract': {
-                          contract: contract
-                        }
-                      });
-                    }}
-                  >
-                    remove
-                  </a>
+                  <div className="flex flex-column flex-row-ns justify-between ">
+                    <p className="pt3">{contract}</p>
+                    <a
+                      className="dib f9 pa3 bt bb bl br tc pointer bg-white mr3"
+                      onClick={() => {
+                        api.action('exampleapp', 'json', {
+                          'remove-contract': {
+                            contract: contract
+                          }
+                        });
+                      }}
+                    >
+                      remove
+                    </a>
+                  </div>
                 </li>
               );
             })}
@@ -113,6 +116,7 @@ export class Root extends Component {
           <p className="lh-copy measure">
             Content on the right of the list for event logs...
           </p>
+          <p>{this.state.selectedContract}</p>
         </div>
       </div>
     );

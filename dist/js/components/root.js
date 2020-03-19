@@ -50,7 +50,7 @@ export class Root extends Component {
         id: "name",
         className: "input-reset ba b--black-20 pa3 db w-100"     ,
         type: "text",
-        placeholder: "Contract Address" ,
+        placeholder: "New Contract Address"  ,
         value: this.state.contract,
         onChange: this.handleContractChange.bind(this),
         'aria-describedby': "name-desc", __self: this, __source: {fileName: _jsxFileName, lineNumber: 49}}
@@ -121,6 +121,7 @@ export class Root extends Component {
   renderActionButtons() {
     return React.createElement(React.Fragment, null
       , React.createElement('a', {
+        key: "initial",
         className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
         onClick: () => {
           console.log('Send contract action json 2s');
@@ -129,8 +130,36 @@ export class Root extends Component {
               contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
             }
           });
-        }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 123}}
-      , "Initial create action"
+        }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 127}}
+      , "initial"
+
+      )
+      , React.createElement('a', {
+        key: "subscribe",
+        className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
+        onClick: () => {
+          console.log('Send subscribe');
+          api.action('exampleapp', 'json', {
+            subscribe: {
+              contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
+            }
+          });
+        }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 141}}
+      , "subscribe"
+
+      )
+      , React.createElement('a', {
+        key: "unsubscribe",
+        className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
+        onClick: () => {
+          console.log('Send unsubscribe');
+          api.action('exampleapp', 'json', {
+            unsubscribe: {
+              contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
+            }
+          });
+        }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 155}}
+      , "unsubscribe"
 
       )
     )

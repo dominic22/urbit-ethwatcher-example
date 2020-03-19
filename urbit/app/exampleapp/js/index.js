@@ -44729,7 +44729,7 @@
                     id: "name",
                     className: "input-reset ba b--black-20 pa3 db w-100"     ,
                     type: "text",
-                    placeholder: "Contract Address" ,
+                    placeholder: "New Contract Address"  ,
                     value: this.state.contract,
                     onChange: this.handleContractChange.bind(this),
                     'aria-describedby': "name-desc", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 49}}
@@ -44800,6 +44800,7 @@
               renderActionButtons() {
                 return react.createElement(react.Fragment, null
                   , react.createElement('a', {
+                    key: "initial",
                     className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
                     onClick: () => {
                       console.log('Send contract action json 2s');
@@ -44808,8 +44809,36 @@
                           contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
                         }
                       });
-                    }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 123}}
-                  , "Initial create action"
+                    }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 127}}
+                  , "initial"
+
+                  )
+                  , react.createElement('a', {
+                    key: "subscribe",
+                    className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
+                    onClick: () => {
+                      console.log('Send subscribe');
+                      api.action('exampleapp', 'json', {
+                        subscribe: {
+                          contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
+                        }
+                      });
+                    }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 141}}
+                  , "subscribe"
+
+                  )
+                  , react.createElement('a', {
+                    key: "unsubscribe",
+                    className: "dib f9 pa3 bt bb bl br tc pointer bg-white"         ,
+                    onClick: () => {
+                      console.log('Send unsubscribe');
+                      api.action('exampleapp', 'json', {
+                        unsubscribe: {
+                          contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
+                        }
+                      });
+                    }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 155}}
+                  , "unsubscribe"
 
                   )
                 )

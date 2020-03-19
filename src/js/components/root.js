@@ -50,7 +50,7 @@ export class Root extends Component {
         id="name"
         className="input-reset ba b--black-20 pa3 db w-100"
         type="text"
-        placeholder="Contract Address"
+        placeholder="New Contract Address"
         value={this.state.contract}
         onChange={this.handleContractChange.bind(this)}
         aria-describedby="name-desc"
@@ -114,7 +114,7 @@ export class Root extends Component {
         </div>
         <div className="pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-60-ns pt3">
           <p className="lh-copy measure">
-            Content on the right of the list for event logs...
+            Content on the right of the selected contract for event logs etc.
           </p>
           <p>{this.state.selectedContract}</p>
         </div>
@@ -125,6 +125,7 @@ export class Root extends Component {
   renderActionButtons() {
     return <>
       <a
+        key="initial"
         className="dib f9 pa3 bt bb bl br tc pointer bg-white"
         onClick={() => {
           console.log('Send contract action json 2s');
@@ -135,7 +136,35 @@ export class Root extends Component {
           });
         }}
       >
-        Initial create action
+        initial
+      </a>
+      <a
+        key="subscribe"
+        className="dib f9 pa3 bt bb bl br tc pointer bg-white"
+        onClick={() => {
+          console.log('Send subscribe');
+          api.action('exampleapp', 'json', {
+            subscribe: {
+              contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
+            }
+          });
+        }}
+      >
+        subscribe
+      </a>
+      <a
+        key="unsubscribe"
+        className="dib f9 pa3 bt bb bl br tc pointer bg-white"
+        onClick={() => {
+          console.log('Send unsubscribe');
+          api.action('exampleapp', 'json', {
+            unsubscribe: {
+              contract: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'
+            }
+          });
+        }}
+      >
+        unsubscribe
       </a>
     </>
   }

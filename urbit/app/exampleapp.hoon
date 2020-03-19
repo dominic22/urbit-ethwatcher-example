@@ -117,6 +117,27 @@
 ::
 |_  bol=bowl:gall
 ::
+++  subscribe
+  |=  contract=@ux
+  ^-  card:agent:gall
+  ~&  '%subscribe'
+  =/  url  ''
+  =/  topics  [~]
+  =/  args=vase  !>
+    :*  %watch  /exampleapp/eth-display
+        url  ~m5  launch:contracts:azimuth
+        ~[contract]
+        topics
+    ==
+  [%pass /exampleapp/eth-display %agent [our.bol %eth-watcher] %poke %eth-watcher-poke args]
+::
+++  unsubscribe
+  |=  contract=@ux
+  ^-  card:agent:gall
+  ~&  '%unsubscribe'
+  =/  args  !>([%clear /exampleapp/eth-display])
+  [%pass /exampleapp/eth-display %agent [our.bol %eth-watcher] %poke %eth-watcher-poke args]
+::
 ++  json-to-action
   |=  jon=json
   ^-  example-action
@@ -174,6 +195,11 @@
   ~&  act
   ?>  ?=(%add-contract -.act)
   =/  new-state  state(contracts (~(put in contracts.state) contract.act))
+::  new:
+::  :_  new-state
+::  :~  (subscribe (contract-cord-to-hex contract.act))
+::      [%give %fact `/state/update %json !>((make-tile-json new-state))]
+::  ==
   :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
   new-state
 ::
@@ -184,6 +210,11 @@
   ~&  act
   ?>  ?=(%remove-contract -.act)
   =/  new-state  state(contracts (~(del in contracts.state) contract.act))
+::  new:
+::  :_  new-state
+::  :~  (unsubscribe (contract-cord-to-hex contract.act))
+::      [%give %fact `/state/update %json !>((make-tile-json new-state))]
+::  ==
   :-  [%give %fact `/state/update %json !>((make-tile-json new-state))]~
   new-state
 ::

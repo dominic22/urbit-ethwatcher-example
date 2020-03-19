@@ -89,30 +89,34 @@ export class Root extends Component {
               return (
                 React.createElement('li', {
                   key: contract,
-                  className: "lh-copy pl3 pv3 ba bl-0 bt-0 br-0 b--solid b--black-30 bg-white bg-animate hover-bg-light-gray flex flex-column flex-row-ns justify-between"               , __self: this, __source: {fileName: _jsxFileName, lineNumber: 90}}
+                  className: `lh-copy pl3 pv3 ba bl-0 bt-0 br-0 b--solid b--black-30 bg-animate hover-bg-light-gray pointer ${this.state.selectedContract === contract ? 'bg-black-20' : 'bg-white'}`,
+                  onClick: () => this.setState({ selectedContract: contract }), __self: this, __source: {fileName: _jsxFileName, lineNumber: 90}}
                 
-                  , React.createElement('p', { className: "pt3", __self: this, __source: {fileName: _jsxFileName, lineNumber: 94}}, contract)
-                  , React.createElement('a', {
-                    className: "dib f9 pa3 bt bb bl br tc pointer bg-white mr3"          ,
-                    onClick: () => {
-                      api.action('exampleapp', 'json', {
-                        'remove-contract': {
-                          contract: contract
-                        }
-                      });
-                    }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 95}}
-                  , "remove"
+                  , React.createElement('div', { className: "flex flex-column flex-row-ns justify-between "    , __self: this, __source: {fileName: _jsxFileName, lineNumber: 95}}
+                    , React.createElement('p', { className: "pt3", __self: this, __source: {fileName: _jsxFileName, lineNumber: 96}}, contract)
+                    , React.createElement('a', {
+                      className: "dib f9 pa3 bt bb bl br tc pointer bg-white mr3"          ,
+                      onClick: () => {
+                        api.action('exampleapp', 'json', {
+                          'remove-contract': {
+                            contract: contract
+                          }
+                        });
+                      }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 97}}
+                    , "remove"
 
+                    )
                   )
                 )
               );
             })
           )
         )
-        , React.createElement('div', { className: "pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-60-ns pt3"       , __self: this, __source: {fileName: _jsxFileName, lineNumber: 112}}
-          , React.createElement('p', { className: "lh-copy measure" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 113}}, "Content on the right of the list for event logs..."
+        , React.createElement('div', { className: "pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-60-ns pt3"       , __self: this, __source: {fileName: _jsxFileName, lineNumber: 115}}
+          , React.createElement('p', { className: "lh-copy measure" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 116}}, "Content on the right of the selected contract for event logs etc."
 
           )
+          , React.createElement('p', {__self: this, __source: {fileName: _jsxFileName, lineNumber: 119}}, this.state.selectedContract)
         )
       )
     );

@@ -44528,6 +44528,30 @@
                 }
             }
 
+            class LocalReducer {
+                reduce(json, state) {
+                    let data = lodash.get(json, 'local', false);
+                    if (data) {
+                        this.setInput(data, state);
+                        this.setSelectedContract(data, state);
+                    }
+                }
+
+                setInput(obj, state) {
+                    let data = lodash.has(obj, 'inputValue', false);
+                    if (data) {
+                        state.inputValue = obj.inputValue;
+                    }
+                }
+
+                setSelectedContract(obj, state) {
+                    let data = lodash.has(obj, 'selectedContract', false);
+                    if (data) {
+                        state.selectedContract = obj.selectedContract;
+                    }
+                }
+            }
+
             class UpdateReducer {
                 reduce(json, state) {
                     let data = lodash.get(json, 'update', false);
@@ -44546,10 +44570,10 @@
             class Store {
               constructor() {
                 this.state = {
-                  inbox: {}
                 };
 
                 this.initialReducer = new InitialReducer();
+                this.localReducer = new LocalReducer();
                 this.configReducer = new ConfigReducer();
                 this.contractsReducer = new ContractsReducer();
                 this.updateReducer = new UpdateReducer();
@@ -44562,23 +44586,21 @@
 
               handleEvent(data) {
                 let json = data.data;
-                // console.log("HANDLE DATA", data);
-                // console.log(json);
                 this.initialReducer.reduce(json, this.state);
                 this.configReducer.reduce(json, this.state);
                 this.contractsReducer.reduce(json, this.state);
                 this.updateReducer.reduce(json, this.state);
+                this.localReducer.reduce(json, this.state);
 
                 this.setState(this.state);
               }
               handleStateUpdateEvent(data) {
                 let json = data.data;
-                // console.log("HANDLE STATE UPDATE", data);
-                // console.log(json);
                 this.initialReducer.reduce(json, this.state);
                 this.configReducer.reduce(json, this.state);
                 this.contractsReducer.reduce(json, this.state);
                 this.updateReducer.reduce(json, this.state);
+                this.localReducer.reduce(json, this.state);
 
                 this.setState(this.state);
               }
@@ -44768,30 +44790,34 @@
                           return (
                             react.createElement('li', {
                               key: contract,
-                              className: "lh-copy pl3 pv3 ba bl-0 bt-0 br-0 b--solid b--black-30 bg-white bg-animate hover-bg-light-gray flex flex-column flex-row-ns justify-between"               , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 90}}
+                              className: `lh-copy pl3 pv3 ba bl-0 bt-0 br-0 b--solid b--black-30 bg-animate hover-bg-light-gray pointer ${this.state.selectedContract === contract ? 'bg-black-20' : 'bg-white'}`,
+                              onClick: () => this.setState({ selectedContract: contract }), __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 90}}
                             
-                              , react.createElement('p', { className: "pt3", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 94}}, contract)
-                              , react.createElement('a', {
-                                className: "dib f9 pa3 bt bb bl br tc pointer bg-white mr3"          ,
-                                onClick: () => {
-                                  api.action('exampleapp', 'json', {
-                                    'remove-contract': {
-                                      contract: contract
-                                    }
-                                  });
-                                }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 95}}
-                              , "remove"
+                              , react.createElement('div', { className: "flex flex-column flex-row-ns justify-between "    , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 95}}
+                                , react.createElement('p', { className: "pt3", __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 96}}, contract)
+                                , react.createElement('a', {
+                                  className: "dib f9 pa3 bt bb bl br tc pointer bg-white mr3"          ,
+                                  onClick: () => {
+                                    api.action('exampleapp', 'json', {
+                                      'remove-contract': {
+                                        contract: contract
+                                      }
+                                    });
+                                  }, __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 97}}
+                                , "remove"
 
+                                )
                               )
                             )
                           );
                         })
                       )
                     )
-                    , react.createElement('div', { className: "pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-60-ns pt3"       , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 112}}
-                      , react.createElement('p', { className: "lh-copy measure" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 113}}, "Content on the right of the list for event logs..."
+                    , react.createElement('div', { className: "pl3-ns order-1 order-2-ns mb4 mb0-ns w-100 w-60-ns pt3"       , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 115}}
+                      , react.createElement('p', { className: "lh-copy measure" , __self: this, __source: {fileName: _jsxFileName$3, lineNumber: 116}}, "Content on the right of the selected contract for event logs etc."
 
                       )
+                      , react.createElement('p', {__self: this, __source: {fileName: _jsxFileName$3, lineNumber: 119}}, this.state.selectedContract)
                     )
                   )
                 );
